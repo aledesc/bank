@@ -1,0 +1,386 @@
+{
+	"info": {
+		"_postman_id": "a790b9b5-1361-425a-8c70-6f658e401597",
+		"name": "bank api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var resp= JSON.parse(responseBody);",
+							"pm.environment.set(\"token\", resp.token);",
+							"",
+							"console.info('data token --> ' + resp.token);",
+							"console.info('------------------------------------------------------');",
+							"",
+							"var tkn=pm.environment.get(\"token\");",
+							"console.log('updated token --> ' + tkn);",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"username\":\"pepe\",\"password\":\"..\"}"
+				},
+				"url": {
+					"raw": "{{local}}/bank/api/auth/login",
+					"host": [
+						"{{local}}"
+					],
+					"path": [
+						"bank",
+						"api",
+						"auth",
+						"login"
+					]
+				},
+				"description": "log into /api/auth/login registered users of the api"
+			},
+			"response": []
+		},
+		{
+			"name": "register",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"username\":\"negra\",\"password\":\"...\"}"
+				},
+				"url": {
+					"raw": "{{local}}/bank/api/auth/register",
+					"host": [
+						"{{local}}"
+					],
+					"path": [
+						"bank",
+						"api",
+						"auth",
+						"register"
+					]
+				},
+				"description": "log into /api/auth/login registered users of the api"
+			},
+			"response": []
+		},
+		{
+			"name": "create account",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.variables.get(\"token\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userName\":\"negra\", \"initialBalance\":1500\n}"
+				},
+				"url": {
+					"raw": "{{local}}/bank/account/create-account",
+					"host": [
+						"{{local}}"
+					],
+					"path": [
+						"bank",
+						"account",
+						"create-account"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deposit",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.variables.get(\"token\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userName\":\"negra\", \"accountName\":\"Second\", \"amount\":1000\n}"
+				},
+				"url": {
+					"raw": "{{local}}/bank/account/deposit",
+					"host": [
+						"{{local}}"
+					],
+					"path": [
+						"bank",
+						"account",
+						"deposit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "withdraw",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.variables.get(\"token\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userName\":\"pepe\", \"accountName\":\"Second\", \"amount\":30\n}"
+				},
+				"url": {
+					"raw": "{{local}}/bank/account/withdraw",
+					"host": [
+						"{{local}}"
+					],
+					"path": [
+						"bank",
+						"account",
+						"withdraw"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "list movements",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.variables.get(\"token\");",
+							"",
+							"let template= null;",
+							"let _response = pm.response.json();",
+							"",
+							"if( _response.data === null )",
+							"{",
+							"    if( _response.msg !== null )",
+							"        template = `<h1>` + _response.msg + `</h1>`;",
+							"    else ",
+							"        template = `<h1>There's something wrong here, either User or the Account are missing!</h1>`;",
+							"}",
+							"else",
+							"{",
+							"    template = `<table bgcolor=\"#FFFFFF\">",
+							"    <tr>",
+							"        <th>Date</th>",
+							"        <th>Movement type</th>",
+							"        <th>Amount</th>",
+							"        <th>Balance</th>",
+							"    </tr>",
+							"",
+							"    {{#each response.data}}",
+							"        <tr>",
+							"            <td>{{date}}</td>",
+							"            <td>{{type}}</td>",
+							"            <td>{{amount}}</td>",
+							"            <td>{{balance}}</td>",
+							"        </tr>",
+							"    {{/each}}",
+							"",
+							"    </table>`;",
+							"",
+							"    let _BALANCE = _response.data.filter(r => r.type === 'OPENS_ACCOUNT')[0].amount;",
+							"",
+							"    const OPENS_ACCOUNT = 'OPENS_ACCOUNT';",
+							"    const WITHDRAW = 'WITHDRAW';",
+							"",
+							"    const setBalance= (_data) => {",
+							"        for (let m of _data) {",
+							"            _BALANCE = m.type === OPENS_ACCOUNT ? _BALANCE : (m.type === WITHDRAW ? _BALANCE - m.amount : _BALANCE + m.amount);",
+							"            m.balance = _BALANCE;",
+							"        }",
+							"    }",
+							"",
+							"    setBalance(_response.data);",
+							"}",
+							"// Set visualizer",
+							"pm.visualizer.set(template, {",
+							"    // Pass the response body parsed as JSON as `data`",
+							"    response: _response //pm.response.json()",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userName\":\"negra\", \"accountName\":\"Second\"\n}"
+				},
+				"url": {
+					"raw": "{{local}}/bank/account/movs",
+					"host": [
+						"{{local}}"
+					],
+					"path": [
+						"bank",
+						"account",
+						"movs"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,4 @@
+
+Al inicializar la DB, es necesario crear el nodo Role, con la propiedad authority:ROLE_ADMIN, con la siguiente sentencia:
+
+# CREATE (r:Role {authority:'ROLE_ADMIN'}) RETURN r;
